@@ -66,17 +66,24 @@ def buttonLight(bright):
 def bitmap(trinket, bm, r, g, b):
     trinket.writeList(ord('b'), bm + [r,g,b])
 
+def flip(bm):
+    # http://stackoverflow.com/a/12682003
+    return [int('{:08b}'.format(n)[::-1], 2) for n in reversed(bm)]
+
 while True:
+    time.sleep(0.25)
     buttonLight(255)
     GPIO.wait_for_edge(buttonPin, GPIO.FALLING)
     buttonLight(0)
-    bitmap(trinket, threebm, 100, 0, 0)
+    time.sleep(0.25)
+    bitmap(trinket, flip(threebm), 100, 0, 0)
     time.sleep(1)
-    bitmap(trinket, twobm, 0, 100, 0)
+    bitmap(trinket, flip(twobm), 0, 100, 0)
     time.sleep(1)
-    bitmap(trinket, onebm, 0, 0, 100)
+    bitmap(trinket, flip(onebm), 0, 0, 100)
     time.sleep(1)
     bitmap(trinket, onbm, 255, 255, 255)
     filename = "photo" + str(time.time()) + ".jpg"
     subprocess.call(['raspistill', '-t', '1', '-w', '1920', '-h', '1080', '-o', filename])
+    time.sleep(0.25)
     bitmap(trinket, offbm, 0, 0, 0)
