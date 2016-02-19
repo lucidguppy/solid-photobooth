@@ -70,11 +70,8 @@ def flip(bm):
     # http://stackoverflow.com/a/12682003
     return [int('{:08b}'.format(n)[::-1], 2) for n in reversed(bm)]
 
-while True:
-    time.sleep(0.25)
-    buttonLight(255)
-    GPIO.wait_for_edge(buttonPin, GPIO.FALLING)
-    buttonLight(0)
+
+def take_picture():
     time.sleep(0.25)
     bitmap(trinket, flip(threebm), 100, 0, 0)
     time.sleep(1)
@@ -87,3 +84,12 @@ while True:
     subprocess.call(['raspistill', '-t', '1', '-w', '1920', '-h', '1080', '-o', filename])
     time.sleep(0.25)
     bitmap(trinket, offbm, 0, 0, 0)
+
+
+while True:
+    time.sleep(0.25)
+    buttonLight(255)
+    GPIO.wait_for_edge(buttonPin, GPIO.FALLING)
+    buttonLight(0)
+    for ii in range(3):
+        take_picture()
