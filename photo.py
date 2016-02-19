@@ -80,7 +80,7 @@ def take_picture():
     bitmap(trinket, flip(onebm), 0, 0, 100)
     time.sleep(1)
     bitmap(trinket, onbm, 200, 200, 200)
-    filename = "photo" + str(time.time()) + ".jpg"
+    filename = "/home/pi/share/photo" + str(time.time()) + ".jpg"
     subprocess.call(['raspistill', '-t', '1', '-w', '1920', '-h', '1080', '-o', filename])
     bitmap(trinket, offbm, 0, 0, 0)
 
