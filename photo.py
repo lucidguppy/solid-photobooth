@@ -79,10 +79,15 @@ def take_picture():
     time.sleep(1)
     bitmap(trinket, flip(onebm), 0, 0, 100)
     time.sleep(1)
-    bitmap(trinket, onbm, 200, 200, 200)
-    filename = "/home/pi/share/photo" + str(time.time()) + ".jpg"
-    subprocess.call(['raspistill', '-ex','sports', '-t', '300', '-w', '1920', '-h', '1080', '-o', filename])
-    bitmap(trinket, offbm, 0, 0, 0)
+    if GPIO.input(buttonPin):
+        bitmap(trinket, onbm, 200, 200, 200)
+        filename = "/home/pi/share/photo" + str(time.time()) + ".jpg"
+        subprocess.call(['raspistill', '-ex','sports', '-t', '300', '-w', '1920', '-h', '1080', '-o', filename])
+        bitmap(trinket, offbm, 0, 0, 0)
+    else:
+        bitmap(trinket, offbm, 0, 0, 0)
+        # if depressed all the time then shut down
+        subprocess.call(['shutdown','now','-h'])
 
 
 while True:
